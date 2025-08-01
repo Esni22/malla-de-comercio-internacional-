@@ -93,6 +93,7 @@ const materias = [
   { codigo: "2401", nombre: "Contabilidad Básica", anio: 1, cuatri: 2, correlativas: [] },
   { codigo: "2403", nombre: "Int. al Conocimiento Científico", anio: 1, cuatri: 2, correlativas: [] },
   { codigo: "2405", nombre: "Administración General", anio: 1, cuatri: 2, correlativas: [] },
+
   // Año 2
   { codigo: "2411", nombre: "Economía General", anio: 2, cuatri: 1, correlativas: ["2400", "2404"] },
   { codigo: "2440", nombre: "Derecho Civil y Comercial", anio: 2, cuatri: 1, correlativas: ["2402"] },
@@ -100,6 +101,7 @@ const materias = [
   { codigo: "2442", nombre: "Macroeconomía", anio: 2, cuatri: 2, correlativas: ["2400", "2411"] },
   { codigo: "2443", nombre: "Legislación Aduanera", anio: 2, cuatri: 2, correlativas: ["2440", "2441"] },
   { codigo: "2407", nombre: "Estadística", anio: 2, cuatri: 2, correlativas: ["2400"] },
+
   // Año 3
   { codigo: "2444", nombre: "Operatoria del Cio. Int.", anio: 3, cuatri: 1, correlativas: ["2443"] },
   { codigo: "2445", nombre: "Valoración y Clasificación Aranc.", anio: 3, cuatri: 1, correlativas: ["2443"] },
@@ -108,6 +110,7 @@ const materias = [
   { codigo: "2448", nombre: "Práctica Aduanera", anio: 3, cuatri: 2, correlativas: ["2444", "2445"] },
   { codigo: "2449", nombre: "Logística Internacional", anio: 3, cuatri: 2, correlativas: ["2439", "2444"] },
   { codigo: "2450", nombre: "Reg. Financiero del Cio. Int.", anio: 3, cuatri: 2, correlativas: ["2441", "2446"] },
+
   // Año 4
   { codigo: "2451", nombre: "Comercialización", anio: 4, cuatri: 1, correlativas: ["2405", "2407", "2441"] },
   { codigo: "2452", nombre: "Investigación de Mercados", anio: 4, cuatri: 1, correlativas: ["2403", "2407", "2439"] },
@@ -115,17 +118,20 @@ const materias = [
   { codigo: "2454", nombre: "Planeamiento y Ev. de Proy.", anio: 4, cuatri: 1, correlativas: ["2407", "2444", "2446"] },
   { codigo: "2455", nombre: "Taller de Gestión Op. del Cio. Int.", anio: 4, cuatri: 2, correlativas: ["2454", "2444", "2445", "2446"] },
   { codigo: "2456", nombre: "Economía Internacional", anio: 4, cuatri: 2, correlativas: ["2453"] },
+  { codigo: "2461", nombre: "Inglés Técnico I", anio: 4, cuatri: 2, correlativas: ["0904"] },
+
   // Año 5
   { codigo: "2457", nombre: "Relaciones Económicas Int.", anio: 5, cuatri: 1, correlativas: ["2456"] },
   { codigo: "2458", nombre: "Práctica Profesional", anio: 5, cuatri: 1, correlativas: ["2452", "2455"] },
   { codigo: "2459", nombre: "Derecho Internacional", anio: 5, cuatri: 1, correlativas: ["2443", "2453"] },
-  // Extra - Inglés
+  { codigo: "2462", nombre: "Inglés Técnico II", anio: 5, cuatri: 1, correlativas: ["2461"] },
+
+  // Extra - Inglés general
   { codigo: "0901", nombre: "Inglés I", anio: 0, cuatri: 1, correlativas: [] },
   { codigo: "0902", nombre: "Inglés II", anio: 0, cuatri: 2, correlativas: ["0901"] },
   { codigo: "0903", nombre: "Inglés III", anio: 0, cuatri: 1, correlativas: ["0902"] },
   { codigo: "0904", nombre: "Inglés IV", anio: 0, cuatri: 2, correlativas: ["0903"] },
-  { codigo: "2461", nombre: "Inglés Técnico I", anio: 0, cuatri: 1, correlativas: ["0904"] },
-  { codigo: "2462", nombre: "Inglés Técnico II", anio: 0, cuatri: 2, correlativas: ["2461"] },
+
   // Extra - Computación
   { codigo: "0911", nombre: "Computación I", anio: 0, cuatri: 1, correlativas: [] },
   { codigo: "0912", nombre: "Computación II", anio: 0, cuatri: 2, correlativas: ["0911"] }
