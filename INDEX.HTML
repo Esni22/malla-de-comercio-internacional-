@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malla Comercio Internacional - UNLaM</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f5;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #c2185b;
+      margin-bottom: 40px;
+    }
+    .grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+    }
+    .column {
+      flex: 1;
+      min-width: 230px;
+      background: #fce4ec;
+      padding: 10px;
+      border-radius: 16px;
+    }
+    .column h2 {
+      text-align: center;
+      color: #ad1457;
+      border-bottom: 2px solid #ad1457;
+      padding-bottom: 4px;
+    }
+    .cuatri-label {
+      text-align: center;
+      font-weight: bold;
+      color: #c71585;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+    .materia {
+      background: #f8bbd0;
+      border-radius: 12px;
+      padding: 8px;
+      margin: 6px 0;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+    }
+    .materia:hover {
+      background: #f48fb1;
+    }
+    .materia.aprobada {
+      background-color: #ec407a;
+      color: white;
+    }
+    .materia.bloqueada {
+      background-color: #f5f5f5;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+    .materia.bloqueada:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 110%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      white-space: nowrap;
+      z-index: 10;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Malla Curricular - Comercio Internacional (UNLaM)</h1>
+<div class="grid" id="malla"></div>
+
+<script>
+const materias = [
+  // Año 1
+  { codigo: "2400", nombre: "Matemática I", anio: 1, cuatri: 1, correlativas: [] },
+  { codigo: "2402", nombre: "Derecho Público", anio: 1, cuatri: 1, correlativas: [] },
+  { codigo: "2404", nombre: "Historia Econ. Soc. y Cont.", anio: 1, cuatri: 1, correlativas: [] },
+  { codigo: "2401", nombre: "Contabilidad Básica", anio: 1, cuatri: 2, correlativas: [] },
+  { codigo: "2403", nombre: "Int. al Conocimiento Científico", anio: 1, cuatri: 2, correlativas: [] },
+  { codigo: "2405", nombre: "Administración General", anio: 1, cuatri: 2, correlativas: [] },
+  // Año 2
+  { codigo: "2411", nombre: "Economía General", anio: 2, cuatri: 1, correlativas: ["2400", "2404"] },
+  { codigo: "2440", nombre: "Derecho Civil y Comercial", anio: 2, cuatri: 1, correlativas: ["2402"] },
+  { codigo: "2441", nombre: "Int. al Comercio Internacional", anio: 2, cuatri: 1, correlativas: [] },
+  { codigo: "2442", nombre: "Macroeconomía", anio: 2, cuatri: 2, correlativas: ["2400", "2411"] },
+  { codigo: "2443", nombre: "Legislación Aduanera", anio: 2, cuatri: 2, correlativas: ["2440", "2441"] },
+  { codigo: "2407", nombre: "Estadística", anio: 2, cuatri: 2, correlativas: ["2400"] },
+  // Año 3
+  { codigo: "2444", nombre: "Operatoria del Cio. Int.", anio: 3, cuatri: 1, correlativas: ["2443"] },
+  { codigo: "2445", nombre: "Valoración y Clasificación Aranc.", anio: 3, cuatri: 1, correlativas: ["2443"] },
+  { codigo: "2446", nombre: "Costos y Elem. de Finanzas", anio: 3, cuatri: 1, correlativas: ["2401"] },
+  { codigo: "2439", nombre: "Geografía Económica", anio: 3, cuatri: 1, correlativas: [] },
+  { codigo: "2448", nombre: "Práctica Aduanera", anio: 3, cuatri: 2, correlativas: ["2444", "2445"] },
+  { codigo: "2449", nombre: "Logística Internacional", anio: 3, cuatri: 2, correlativas: ["2439", "2444"] },
+  { codigo: "2450", nombre: "Reg. Financiero del Cio. Int.", anio: 3, cuatri: 2, correlativas: ["2441", "2446"] },
+  // Año 4
+  { codigo: "2451", nombre: "Comercialización", anio: 4, cuatri: 1, correlativas: ["2405", "2407", "2441"] },
+  { codigo: "2452", nombre: "Investigación de Mercados", anio: 4, cuatri: 1, correlativas: ["2403", "2407", "2439"] },
+  { codigo: "2453", nombre: "Integración Económica", anio: 4, cuatri: 1, correlativas: ["2441", "2442"] },
+  { codigo: "2454", nombre: "Planeamiento y Ev. de Proy.", anio: 4, cuatri: 1, correlativas: ["2407", "2444", "2446"] },
+  { codigo: "2455", nombre: "Taller de Gestión Op. del Cio. Int.", anio: 4, cuatri: 2, correlativas: ["2454", "2444", "2445", "2446"] },
+  { codigo: "2456", nombre: "Economía Internacional", anio: 4, cuatri: 2, correlativas: ["2453"] },
+  // Año 5
+  { codigo: "2457", nombre: "Relaciones Económicas Int.", anio: 5, cuatri: 1, correlativas: ["2456"] },
+  { codigo: "2458", nombre: "Práctica Profesional", anio: 5, cuatri: 1, correlativas: ["2452", "2455"] },
+  { codigo: "2459", nombre: "Derecho Internacional", anio: 5, cuatri: 1, correlativas: ["2443", "2453"] },
+  // Extra - Inglés
+  { codigo: "0901", nombre: "Inglés I", anio: 0, cuatri: 1, correlativas: [] },
+  { codigo: "0902", nombre: "Inglés II", anio: 0, cuatri: 2, correlativas: ["0901"] },
+  { codigo: "0903", nombre: "Inglés III", anio: 0, cuatri: 1, correlativas: ["0902"] },
+  { codigo: "0904", nombre: "Inglés IV", anio: 0, cuatri: 2, correlativas: ["0903"] },
+  { codigo: "2461", nombre: "Inglés Técnico I", anio: 0, cuatri: 1, correlativas: ["0904"] },
+  { codigo: "2462", nombre: "Inglés Técnico II", anio: 0, cuatri: 2, correlativas: ["2461"] },
+  // Extra - Computación
+  { codigo: "0911", nombre: "Computación I", anio: 0, cuatri: 1, correlativas: [] },
+  { codigo: "0912", nombre: "Computación II", anio: 0, cuatri: 2, correlativas: ["0911"] }
+];
+
+function renderMalla() {
+  const container = document.getElementById("malla");
+  for (let anio = 0; anio <= 5; anio++) {
+    const col = document.createElement("div");
+    col.className = "column";
+    col.innerHTML = `<h2>${anio === 0 ? "Extra" : anio + "º Año"}</h2>`;
+
+    for (let cuatri = 1; cuatri <= 2; cuatri++) {
+      const materiasFiltradas = materias.filter(m => m.anio === anio && m.cuatri === cuatri);
+      if (materiasFiltradas.length === 0) continue;
+
+      const cuatriDiv = document.createElement("div");
+      const cuatriLabel = document.createElement("div");
+      cuatriLabel.className = "cuatri-label";
+      cuatriLabel.textContent = `${cuatri}º Cuatrimestre`;
+      cuatriDiv.appendChild(cuatriLabel);
+
+      materiasFiltradas.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "materia";
+        div.id = m.codigo;
+        div.innerText = m.nombre;
+        div.onclick = () => toggleMateria(m.codigo);
+        cuatriDiv.appendChild(div);
+      });
+
+      col.appendChild(cuatriDiv);
+    }
+
+    container.appendChild(col);
+  }
+  actualizarBloqueos();
+}
+
+function toggleMateria(codigo) {
+  const aprobadas = getAprobadas();
+  const div = document.getElementById(codigo);
+  if (div.classList.contains("bloqueada")) return;
+  if (div.classList.contains("aprobada")) {
+    div.classList.remove("aprobada");
+    guardarAprobada(codigo, false);
+  } else {
+    div.classList.add("aprobada");
+    guardarAprobada(codigo, true);
+  }
+  actualizarBloqueos();
+}
+
+function getAprobadas() {
+  return JSON.parse(localStorage.getItem("aprobadas") || "[]");
+}
+
+function guardarAprobada(codigo, estado) {
+  let aprobadas = getAprobadas();
+  if (estado && !aprobadas.includes(codigo)) aprobadas.push(codigo);
+  else if (!estado) aprobadas = aprobadas.filter(c => c !== codigo);
+  localStorage.setItem("aprobadas", JSON.stringify(aprobadas));
+}
+
+function actualizarBloqueos() {
+  const aprobadas = getAprobadas();
+  materias.forEach(m => {
+    const div = document.getElementById(m.codigo);
+    div.classList.remove("bloqueada");
+    div.classList.remove("aprobada");
+    div.removeAttribute("data-tooltip");
+
+    if (aprobadas.includes(m.codigo)) {
+      div.classList.add("aprobada");
+    } else if (m.correlativas.length && !m.correlativas.every(c => aprobadas.includes(c))) {
+      div.classList.add("bloqueada");
+      const faltan = m.correlativas
+        .filter(c => !aprobadas.includes(c))
+        .map(c => materias.find(m => m.codigo === c).nombre);
+      div.setAttribute("data-tooltip", "Faltan: " + faltan.join(", "));
+    }
+  });
+}
+
+renderMalla();
+</script>
+
+</body>
+</html>
